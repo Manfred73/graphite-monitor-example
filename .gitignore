@@ -1,0 +1,11 @@
+/bin/
+/target/
+/.apt_generated/
+/.settings/
+/.classpath
+/.factorypath
+/.project
+.springBeans
+test-output
+/logs
+/graphite-monitoring-example.pid
