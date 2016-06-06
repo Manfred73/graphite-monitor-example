@@ -1,4 +1,4 @@
-package graphite.monitoring.example.controller;
+package com.craftsmen.graphite.monitoring.example.controller;
 
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public class AbstractHttpController {
 
-	private static final String JSON_MIME_TYPE = "application/json";
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHttpController.class);
-
+	public static final String JSON_MIME_TYPE = "application/json";
+	public static final String CUSTOMER_CONTROLLER_PATH = "/customer";
 	public static final String HTTP_POST = "POST";
 	public static final String HTTP_GET = "GET";
 	public static final String HTTP_PUT = "PUT";

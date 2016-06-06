@@ -1,4 +1,4 @@
-package graphite.monitoring.example;
+package com.craftsmen.graphite.monitoring.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.system.ApplicationPidFileWriter;
