@@ -34,6 +34,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return customers;
 	}
 
+	public List<Customer> findAll() {
+		return (List<Customer>) repository.findAll();
+	}
+	
 	public void delete(Long id) {
 		Customer customer = repository.findOne(id);
 		if (customer != null) {
