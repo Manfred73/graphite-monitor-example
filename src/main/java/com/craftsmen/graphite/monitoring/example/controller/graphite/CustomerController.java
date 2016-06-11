@@ -3,11 +3,10 @@ package com.craftsmen.graphite.monitoring.example.controller.graphite;
 import static com.craftsmen.graphite.monitoring.example.controller.AbstractHttpController.CUSTOMER_CONTROLLER_PATH;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;

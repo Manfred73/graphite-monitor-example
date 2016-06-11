@@ -5,10 +5,13 @@ import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import com.craftsmen.graphite.monitoring.example.entities.Customer;
 import com.craftsmen.graphite.monitoring.example.respository.CustomerRepository;
 
-public class CustomerServiceImpl {
+@Service
+public class CustomerServiceImpl implements CustomerService {
 
 	@Inject
 	private CustomerRepository repository;
