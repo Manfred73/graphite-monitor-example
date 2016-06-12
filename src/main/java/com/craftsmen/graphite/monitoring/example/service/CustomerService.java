@@ -12,6 +12,8 @@ public interface CustomerService {
 
 	List<Customer> findByLastName(String lastName);
 
+	List<Customer> findByFirstNameAndLastName(String firstName, String lastName);
+	
 	List<Customer> findAll();
 	
 	void delete(Long id);

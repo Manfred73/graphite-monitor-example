@@ -1,9 +1,7 @@
 package com.craftsmen.graphite.monitoring.example.controller.graphite;
 
-import static com.craftsmen.graphite.monitoring.example.controller.AbstractHttpController.CUSTOMER_CONTROLLER_PATH;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -27,7 +25,6 @@ import com.craftsmen.graphite.monitoring.example.service.CustomerService;
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 
 @RestController
-@RequestMapping(CUSTOMER_CONTROLLER_PATH)
 @EnableMetrics
 public class CustomerController extends AbstractHttpController {
 
@@ -56,7 +53,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing {@link Customer} retrieved if
 	 *         found, the HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customer/{id}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -82,7 +79,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the {@link Customer}s retrieved
 	 *         if found, the HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(value = "/firstName/{firstName}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customers/firstName/{firstName}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -108,7 +105,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the {@link Customer}s retrieved
 	 *         if found, the HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(value = "lastName/{lastName}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customers/lastName/{lastName}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -121,6 +118,34 @@ public class CustomerController extends AbstractHttpController {
 	}
 
 	/**
+	 * This method will retrieve {@link Customer}s by their first and last name.
+	 *
+	 * If the {@link Customer} cannot be found, a {@link NoSuchElementException}
+	 * will be thrown and a {@link ResponseEntity} with
+	 * {@link HttpStatus.NO_CONTENT} will be returned. If one or more
+	 * {@link Customer}s are found, they will be returned in the
+	 * {@link ResponseEntity}.
+	 *
+	 * @param firstName
+	 *            the {@link Customer}'s first name
+	 * @param lastName
+	 *            the {@link Customer}'s last name
+	 * @return {@link ResponseEntity} containing the {@link Customer}s retrieved
+	 *         if found, the HTTP headers and the HTTP status code
+	 */
+	@RequestMapping(value = "/customers/firstName/{firstName}/lastName/{lastName}", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
+	@ResponseBody
+	@Timed
+	@ExceptionMetered
+	public ResponseEntity<String> getByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName, HttpServletRequest request) {
+		logApiCalls(request);
+		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
+		List<Customer> customers = customerService.findByFirstNameAndLastName(firstName, lastName);
+		String response = responseBodyMapper.mapCustomersToResponseBody(customers, requestUrl);
+		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
+	}
+	
+	/**
 	 * This method will retrieve all {@link Customer}s.
 	 *
 	 * If no {@link Customer}s can be found, a {@link NoSuchElementException}
@@ -132,7 +157,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the {@link Customer}s retrieved
 	 *         if found, the HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(method = RequestMethod.GET, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customers", method = RequestMethod.GET, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -152,7 +177,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the HTTP headers and the HTTP
 	 *         status code
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -185,7 +210,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the updated {@link Customer} if
 	 *         found, the HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -214,7 +239,7 @@ public class CustomerController extends AbstractHttpController {
 	 * @return {@link ResponseEntity} containing the new {@link Customer}, the
 	 *         HTTP headers and the HTTP status code
 	 */
-	@RequestMapping(method = RequestMethod.POST, produces = JSON_MIME_TYPE)
+	@RequestMapping(value = "/customer", method = RequestMethod.POST, produces = JSON_MIME_TYPE)
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
@@ -223,8 +248,9 @@ public class CustomerController extends AbstractHttpController {
 		requestValidator.validateJson(requestBody);
 		Customer customer = requestBodyMapper.mapRequestBodyToCustomer(requestBody);
 		customer = customerService.save(customer);
-		String requestUrl = request.getRequestURL().toString() + "/" + customer.getId();
+		String requestUrl = request.getRequestURL().toString();
 		String response = responseBodyMapper.mapCustomerToResonseBody(customer, requestUrl);
-		return new ResponseEntity<String>(response, createHeaders(requestUrl, request.getMethod()), HttpStatus.CREATED);
+		return new ResponseEntity<String>(response, createHeaders(requestUrl, customer.getId(), request.getMethod()),
+				HttpStatus.CREATED);
 	}
 }

@@ -10,8 +10,8 @@ import javax.persistence.SequenceGenerator;
 public class Customer {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
-    @SequenceGenerator(name="customer_id_seq", sequenceName = "CUSTOMER_ID_SEQ", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUSTOMER_ID_SEQ")
+    @SequenceGenerator(name="CUSTOMER_ID_SEQ", sequenceName = "CUSTOMER_ID_SEQ", allocationSize = 1)
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -30,7 +30,7 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

@@ -24,16 +24,21 @@ public class CustomerServiceImpl implements CustomerService {
 		return customer;
 	}
 
-	public List<Customer> findByLastName(String lastName) {
-		List<Customer> customers = repository.findByLastName(lastName);
-		return customers;
-	}
-
 	public List<Customer> findByFirstName(String firstName) {
 		List<Customer> customers = repository.findByFirstName(firstName);
 		return customers;
 	}
 
+	public List<Customer> findByLastName(String lastName) {
+		List<Customer> customers = repository.findByLastName(lastName);
+		return customers;
+	}
+
+	public List<Customer> findByFirstNameAndLastName(String firstName, String lastName) {
+		List<Customer> customers = repository.findByFirstNameAndLastName(firstName, lastName);
+		return customers;
+	}
+	
 	public List<Customer> findAll() {
 		return (List<Customer>) repository.findAll();
 	}

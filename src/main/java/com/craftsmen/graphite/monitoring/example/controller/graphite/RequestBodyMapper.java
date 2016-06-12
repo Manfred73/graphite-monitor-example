@@ -4,7 +4,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.craftsmen.graphite.monitoring.example.entities.Customer;
-import com.craftsmen.graphite.monitoring.example.util.JsonUtils;
+import com.craftsmen.graphite.monitoring.example.util.JsonUtil;
 import com.jayway.jsonpath.DocumentContext;
 
 @Named("customerRequestBodyMapper")
@@ -16,9 +16,9 @@ public class RequestBodyMapper {
 	}
 
 	public Customer mapRequestBodyToCustomer(Long id, String requestBody) {
-		DocumentContext jsonContext = JsonUtils.getJsonContext(requestBody);
-		String firstName = (String) jsonContext.read("$.customer.firstName");
-		String lastName = (String) jsonContext.read("$.customer.lastName");
+		DocumentContext jsonContext = JsonUtil.getJsonContext(requestBody);
+		String firstName = (String) jsonContext.read("$.firstName");
+		String lastName = (String) jsonContext.read("$.lastName");
 		if (id == null) {
 			return new Customer(firstName, lastName);
 		}

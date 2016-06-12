@@ -13,29 +13,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-
 public class AbstractHttpController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHttpController.class);
 	public static final String JSON_MIME_TYPE = "application/json";
-	public static final String CUSTOMER_CONTROLLER_PATH = "/customer";
 	public static final String HTTP_POST = "POST";
 	public static final String HTTP_GET = "GET";
 	public static final String HTTP_PUT = "PUT";
 	public static final String HTTP_DELETE = "DELETE";
 
 	private MultiValueMap<String, String> createHeaders() {
-		return createHeaders(null, null);
+		return createHeaders(null, null, null);
 	}
 
 	protected MultiValueMap<String, String> createHeaders(String requestMethod) {
-		return createHeaders(null, requestMethod);
+		return createHeaders(null, null, requestMethod);
 	}
 
-	protected MultiValueMap<String, String> createHeaders(String locationUrl, String requestMethod) {
+	protected MultiValueMap<String, String> createHeaders(String locationUrl, Long id, String requestMethod) {
 		MultiValueMap<String, String> headers = new HttpHeaders();
 		if (locationUrl != null && HTTP_POST.equals(requestMethod)) {
-			headers.add(HttpHeaders.LOCATION, locationUrl);
+			headers.add(HttpHeaders.LOCATION, locationUrl + "/" + id);
 		}
 		headers.add(HttpHeaders.CONTENT_TYPE, JSON_MIME_TYPE);
 		return headers;
