@@ -1,17 +1,44 @@
 # Graphite Monitoring Example
 This is a small Spring Boot application containing some REST endpoints to demonstrate the use of the [Java Metrics library](http://metrics.dropwizard.io/) and reporting to [Graphite](http://graphite.wikidot.com/).
 
-To use this example, you should have a running Graphite instance. You can use a [graphite docker image](https://github.com/Manfred73/graphite) to start up a Graphite instance.
+To use this example, you should have:
+
+ - Maven installed.
+ - A running Graphite instance. You can use a [graphite docker image](https://github.com/Manfred73/graphite) to start up a Graphite instance.
 
 ##Contents
-1. [Run the application](#run-the-application)
-2. [H2 Database](#h2-database)
-3. [Customer API](#customer-api)
+1. [Application configuration](#application-configuration)
+2. [Spring profiles](#spring-profiles)
+3. [Run the application](#run-the-application)
+4. [H2 Database](#h2-database)
+5. [Customer API](#customer-api)
+
+###Application configuration
+To actually see any result in Graphite, you need to set the correct host for Graphite in the ```application.properties```. To do this go to ```application.properties``` and change the ```graphite.host property```, e.g. ```192.168.0.15```.
+
+###Spring profiles
+
+ - By default the following profiles are active when the application is started: ```h2,test``` (see ```application.properties```). The ```h2``` profile is needed in order to use the in memory H2 database with customer data.
+ - The ```test``` profile will push data to graphite under entry: ```collectd/graphite-monitoring-example/test``` (see ```MonitoringConfigurationTestEnvironment```).
+ - The ```prod``` profile will push data to graphite under entry: ```collectd/graphite-monitoring-example/production``` (see ```MonitoringConfigurationProductionEnvironment```).
 
 ###Run the application
+To run the application, first run the following command:
 ```
 mvn package
+```
+
+The application can then be run as follows:
+```
 java -jar target/graphite-monitoring-example.jar
+```
+which uses the profiles ```h2,test```, which is similar to running the application as:
+```
+java -Dspring.profiles.active=h2,test -jar target/graphite-monitoring-example.jar
+```
+To run with profile ```prod``` you can do:
+```
+java -Dspring.profiles.active=h2,prod -jar target/graphite-monitoring-example.jar
 ```
 
 ###H2 Database
