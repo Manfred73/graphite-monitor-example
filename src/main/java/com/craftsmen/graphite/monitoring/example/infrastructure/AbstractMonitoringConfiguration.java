@@ -1,4 +1,4 @@
-package com.craftsmen.graphite.monitoring.example;
+package com.craftsmen.graphite.monitoring.example.infrastructure;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;

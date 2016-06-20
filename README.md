@@ -10,11 +10,13 @@ To use this example, you should have:
 1. [Application configuration](#application-configuration)
 2. [Spring profiles](#spring-profiles)
 3. [Run the application](#run-the-application)
-4. [H2 Database](#h2-database)
-5. [Customer API](#customer-api)
+4. [Generate data for Graphite](#generate-data-for-graphite)
+5. [H2 Database](#h2-database)
+6. [Customer API](#customer-api)
 
 ###Application configuration
 To actually see any result in Graphite, you need to set the correct host for Graphite in the ```application.properties```. To do this go to ```application.properties``` and change the ```graphite.host property```, e.g. ```192.168.0.15```.
+The application runs on port ```8090```.
 
 ###Spring profiles
 
@@ -41,8 +43,16 @@ To run with profile ```prod``` you can do:
 java -Dspring.profiles.active=h2,prod -jar target/graphite-monitoring-example.jar
 ```
 
+###Generate data for Graphite
+To see some actual results in Graphite, you can make some REST calls to the Customer-API, e.g. by using the Advanced REST Client in Chrome.
+The application also offers an option to generate some data by automaically executing some REST calls to the Customer-API. To trigger this, you can run the application as described in the section above ([Run the application](#run-the-application)) and by adding the following argument: ```--generateGraphiteData```, for example:
+```
+mvn package
+java -jar target/graphite-monitoring-example.jar --generateGraphiteData
+```
+
 ###H2 Database
-This application runs an in memory H2 database which inserts 300 customers with first name and last name on startup of the application. To access the in memory H2 database you can navigate to http://localhost:8080/console. To connect use the following settings:
+This application runs an in memory H2 database which inserts 300 customers with first name and last name on startup of the application. To access the in memory H2 database you can navigate to http://localhost:8090/console. To connect use the following settings:
 
  - Generic H2 (Embedded) for Saved Settings and Setting Name.
  - Driver Class: org.h2.Driver

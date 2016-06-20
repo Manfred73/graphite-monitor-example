@@ -48,7 +48,7 @@ a single customer:
        "lastName": "Oscar",
        "_links": {
           "self": {
-             "href": "http://localhost:8080/1"
+             "href": "http://localhost:8090/1"
           }
        }
     }
@@ -62,7 +62,7 @@ or multiple customers:
              "lastName": "Oscar",
              "_links": {
                 "self": {
-                   "href": "http://localhost:8080/1"
+                   "href": "http://localhost:8090/1"
                 }
              }
           },
@@ -71,7 +71,7 @@ or multiple customers:
              "lastName": "Cruz",
              "_links": {
                 "self": {
-                   "href": "http://localhost:8080/2"
+                   "href": "http://localhost:8090/2"
                 }
              }
           },
@@ -80,7 +80,7 @@ or multiple customers:
              "lastName": "Joy",
              "_links": {
                 "self": {
-                   "href": "http://localhost:8080/300"
+                   "href": "http://localhost:8090/300"
                 }
              }
           }
@@ -88,7 +88,7 @@ or multiple customers:
     }
 
 ###The HTTP interface
-The HTTP interface of the customer API is accessible under the following base URL: http://localhost:8080/
+The HTTP interface of the customer API is accessible under the following base URL: http://localhost:8090/
 
 ####Content-Type
 The interface only delivers data with Content-Type "application/json". The following headers should be set in every request:
@@ -101,9 +101,9 @@ The interface only delivers data with Content-Type "application/json". The follo
 ###Retrieval of a customer
 An existing customer can be retrieved by its id using the HTTP-GET method. It will be returned as a JSON document. The url template for retrieving an existing customer is as follows:
 
-    http://localhost:8080/customer/{id}
+    http://localhost:8090/customer/{id}
 
-A succussful retrieval will result in a response with HTTP statuscode 200 OK.
+A successful retrieval will result in a response with HTTP statuscode 200 OK.
 
 If the customer could not be found with the id provided, a response with HTTP statuscode 404 NOT FOUND will be returned.
 
@@ -113,7 +113,7 @@ Added to the response body will also be the url (_links > self > href) for the r
 
 ####**GET request example**
 
-    GET http://localhost:8080/customer/1
+    GET http://localhost:8090/customer/1
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
@@ -121,14 +121,15 @@ Added to the response body will also be the url (_links > self > href) for the r
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
-Content-Length: 100
+Content-Length: 101
 
     {
+      "id": 1,
       "firstName": "Gage",
       "lastName": "Oscar",
       "_links": {
          "self": {
-            "href": "http://localhost:8080/1"
+            "href": "http://localhost:8090/1"
          }
       }
     }
@@ -136,11 +137,11 @@ Content-Length: 100
 ###Retrieval of customers by first name
 Customers can be retrieved by their first name using the HTTP-GET method. All customers with the matching first name will be returned as a JSON document. The url template for retrieving customers by their first name is as follows:
 
-    http://localhost:8080/customers/firstName/{firstName}
+    http://localhost:8090/customers/firstName/{firstName}
 
 A succussful retrieval will result in a response with HTTP statuscode 200 OK.
 
-If no customers could be found with the first name provided, a response with HTTP statuscode 404 NOT FOUND will be returned.
+If no customers could be found with the first name provided, an empty response will be returned with HTTP statuscode 200 OK.
 
 The body of the response contains the actual data in JSON format.
 
@@ -148,7 +149,7 @@ Added to the response body for each customer there will also be the url (_links 
 
 ####**GET request example**
 
-    GET http://localhost:8080/customers/firstName/Addison
+    GET http://localhost:8090/customers/firstName/Addison
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
@@ -156,34 +157,37 @@ Added to the response body for each customer there will also be the url (_links 
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
-Content-Length: 411
+Content-Length: 333
 
     {
        "customers": [
        {
+          "id": 7,
           "firstName": "Addison",
           "lastName": "Merrill",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/7"
+                "href": "http://localhost:8090/7"
              }
           }
        },
        {
+          "id": 41,
           "firstName": "Addison",
           "lastName": "Leroy",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/41"
+                "href": "http://localhost:8090/41"
              }
           }
        },
        {
+          "id": 281,
           "firstName": "Addison",
           "lastName": "Galvin",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/281"
+                "href": "http://localhost:8090/281"
              }
           }
        }]
@@ -192,11 +196,11 @@ Content-Length: 411
 ###Retrieval of customers by last name
 Customers can be retrieved by their last name using the HTTP-GET method. All customers with the matching last name will be returned as a JSON document. The url template for retrieving customers by their last name is as follows:
 
-    http://localhost:8080/customers/lastName/{lastName}
+    http://localhost:8090/customers/lastName/{lastName}
 
 A succussful retrieval will result in a response with HTTP statuscode 200 OK.
 
-If no customers could be found with the last name provided, a response with HTTP statuscode 404 NOT FOUND will be returned.
+If no customers could be found with the last name provided, an empty response will be returned with HTTP statuscode 200 OK.
 
 The body of the response contains the actual data in JSON format.
 
@@ -204,7 +208,7 @@ Added to the response body for each customer there will also be the url (_links 
 
 ####**GET request example**
 
-    GET http://localhost:8080/customers/lastName/Alvin
+    GET http://localhost:8090/customers/lastName/Alvin
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
@@ -212,34 +216,37 @@ Added to the response body for each customer there will also be the url (_links 
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
-Content-Length: 411
+Content-Length: 331
 
     {
        "customers": [
        {
+          "id": 16,
           "firstName": "Marvin",
           "lastName": "Alvin",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/16"
+                "href": "http://localhost:8090/16"
              }
           }
        },
        {
+          "id": 260,
           "firstName": "Dominic",
           "lastName": "Alvin",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/260"
+                "href": "http://localhost:8090/260"
              }
           }
        },
        {
+          "id": 276,
           "firstName": "Colby",
           "lastName": "Alvin",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/276"
+                "href": "http://localhost:8090/276"
              }
           }
        }]
@@ -248,11 +255,11 @@ Content-Length: 411
 ###Retrieval of customers by first name and last name
 Customers can be retrieved by their first name and last name using the HTTP-GET method. All customers with the matching first name and last name will be returned as a JSON document. The url template for retrieving customers by their first name and last name is as follows:
 
-    http://localhost:8080/customers/firstName/{firstName}/lastName/{lastName}
+    http://localhost:8090/customers/firstName/{firstName}/lastName/{lastName}
 
 A succussful retrieval will result in a response with HTTP statuscode 200 OK.
 
-If no customers could be found with the last name provided, a response with HTTP statuscode 404 NOT FOUND will be returned.
+If no customers could be found with the first name and last name provided, an empty response will be returned with HTTP statuscode 200 OK.
 
 The body of the response contains the actual data in JSON format.
 
@@ -260,7 +267,7 @@ Added to the response body for each customer there will also be the url (_links 
 
 ####**GET request example**
 
-    GET http://localhost:8080/customers/firstName/Carlos/lastName/Lucius
+    GET http://localhost:8090/customers/firstName/Carlos/lastName/Lucius
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
@@ -268,16 +275,17 @@ Added to the response body for each customer there will also be the url (_links 
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
-Content-Length: 146
+Content-Length: 120
 
     {
        "customers": [
        {
+          "id": 18,
           "firstName": "Carlos",
           "lastName": "Lucius",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/18"
+                "href": "http://localhost:8090/18"
              }
           }
        }]
@@ -286,11 +294,11 @@ Content-Length: 146
 ###Retrieval of all customers
 All existings customers can be retrieved by using the HTTP-GET method. All customers will be returned as a JSON document. The url template for retrieving all customer is as follows:
 
-    http://localhost:8080/customers
+    http://localhost:8090/customers
 
 A succussful retrieval will result in a response with HTTP statuscode 200 OK.
 
-If no customers could be found with the last name provided, a response with HTTP statuscode 404 NOT FOUND will be returned.
+If no customers could be found, an empty response will be returned with HTTP statuscode 200 OK.
 
 The body of the response contains the actual data in JSON format.
 
@@ -298,7 +306,7 @@ Added to the response body for each customer there will also be the url (_links 
 
 ####**GET request example**
 
-    GET http://localhost:8080/customers
+    GET http://localhost:8090/customers
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
@@ -311,20 +319,22 @@ Content-Length: 39451
     {
        "customers": [
        {
+          "id": 1,
           "firstName": "Gage",
           "lastName": "Oscar",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/1"
+                "href": "http://localhost:8090/1"
              }
           }
        },
        {
+          "id": 2,
           "firstName": "Uriel",
           "lastName": "Cruz",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/2"
+                "href": "http://localhost:8090/2"
              }
           }
        },
@@ -332,11 +342,12 @@ Content-Length: 39451
        ..........
        ..........
        {
+          "id": 300,
           "firstName": "Larissa",
           "lastName": "Joy",
           "_links": {
              "self": {
-                "href": "http://localhost:8080/300"
+                "href": "http://localhost:8090/300"
              }
           }
        }]
@@ -346,7 +357,7 @@ Content-Length: 39451
 
 A new customer can be stored via an HTTP-POST request. The url template for creating a newcustomer is as follows: 
 
-    http://localhost:8080/customer
+    http://localhost:8090/customer
 
 The data will be passed on in the body of the POST request as a JSON document.
 
@@ -362,7 +373,7 @@ In the HTTP header "Location" you can find the url for the newly created custome
 
 ####**POST request example**
 
-    POST http://localhost:8080/customer
+    POST http://localhost:8090/customer
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
     
@@ -374,16 +385,17 @@ In the HTTP header "Location" you can find the url for the newly created custome
 ####**POST response example**
 
     201 CREATED
-    Location: http://localhost:8080/customer/301
+    Location: http://localhost:8090/customer/301
     Content-Type: application/json;charset=UTF-8
-    Content-Length: 109
+    Content-Length: 110
     
     {
+      "id": 301,
       "firstName": "John",
       "lastName": "Doe",
       "_links": {
          "self": {
-            "href": "http://localhost:8080/customer/301"
+            "href": "http://localhost:8090/customer/301"
          }
       }
     }
@@ -391,7 +403,7 @@ In the HTTP header "Location" you can find the url for the newly created custome
 ###Updating an existing customer
 An existing customer can be updated by its id using the HTTP-PUT method. The url template for updating an existing customer is as follows:
 
-    http://localhost:8080/customer/{id}
+    http://localhost:8090/customer/{id}
 
 The data to be passed on in the body of the PUT request as a JSON document will be the same as for the POST request.
 
@@ -406,7 +418,7 @@ The body of the response contains the actual data in JSON format.
 
 ####**PUT request example**
 
-PUT http://localhost:8080/customer/301
+PUT http://localhost:8090/customer/301
 Accept: application/json
 Content-Type: application/json;charset=UTF-8 
 
@@ -419,14 +431,15 @@ Content-Type: application/json;charset=UTF-8
 
     200 OK
     Content-Type: application/json;charset=UTF-8
-    Content-Length: 100
+    Content-Length: 111
     
     {
+      "id": 301,
       "firstName": "Jane",
       "lastName": "Doe",
       "_links": {
          "self": {
-            "href": "http://localhost:8080/customer/301"
+            "href": "http://localhost:8090/customer/301"
          }
       }
     }
@@ -434,7 +447,7 @@ Content-Type: application/json;charset=UTF-8
 ###Deleting an existing customer
 An existing customer can be deleted by its id using the HTTP-DELETE method. The url template for deleting an existing customer is as follows:
 
-    http://localhost:8080/customer/{id}
+    http://localhost:8090/customer/{id}
 
 A succussful delete will result in a response with HTTP statuscode 204 NO CONTENT.
 
@@ -444,7 +457,7 @@ The body of the response will be empty.
 
 ####**DELETE request example**
 
-DELETE http://localhost:8080/301
+DELETE http://localhost:8090/301
 Accept: application/json
 Content-Type: application/json;charset=UTF-8 
 

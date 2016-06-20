@@ -1,4 +1,4 @@
-package com.craftsmen.graphite.monitoring.example;
+package com.craftsmen.graphite.monitoring.example.infrastructure;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;

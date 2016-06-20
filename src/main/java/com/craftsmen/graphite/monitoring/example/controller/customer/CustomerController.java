@@ -1,4 +1,4 @@
-package com.craftsmen.graphite.monitoring.example.controller.graphite;
+package com.craftsmen.graphite.monitoring.example.controller.customer;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -32,10 +32,10 @@ public class CustomerController extends AbstractHttpController {
 	private CustomerService customerService;
 
 	@Inject
-	private ResponseBodyMapper responseBodyMapper;
+	private CustomerToJsonMapper customerToJsonMapper;
 
 	@Inject
-	private RequestBodyMapper requestBodyMapper;
+	private JsonToCustomerMapper jsonToCustomerMapper;
 
 	@Inject
 	private RequestValidator requestValidator;
@@ -61,18 +61,16 @@ public class CustomerController extends AbstractHttpController {
 		logApiCalls(request);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
 		Customer customer = customerService.findById(id);
-		String response = responseBodyMapper.mapCustomerToResonseBody(customer, requestUrl);
+		String response = customerToJsonMapper.mapCustomerToJson(customer, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
 
 	/**
 	 * This method will retrieve {@link Customer}s by their first name.
 	 *
-	 * If the {@link Customer} cannot be found, a {@link NoSuchElementException}
-	 * will be thrown and a {@link ResponseEntity} with
-	 * {@link HttpStatus.NO_CONTENT} will be returned. If one or more
-	 * {@link Customer}s are found, they will be returned in the
-	 * {@link ResponseEntity}.
+	 * If the {@link Customer} cannot be found, an empty result will be will be
+	 * returned in the {@link ResponseEntity}. If one or more {@link Customer}s
+	 * are found, they will be returned in the {@link ResponseEntity}.
 	 *
 	 * @param firstName
 	 *            the {@link Customer}'s first name
@@ -87,15 +85,17 @@ public class CustomerController extends AbstractHttpController {
 		logApiCalls(request);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
 		List<Customer> customers = customerService.findByFirstName(firstName);
-		String response = responseBodyMapper.mapCustomersToResponseBody(customers, requestUrl);
+		String response = customerToJsonMapper.mapCustomersToJson(customers, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
 
 	/**
 	 * This method will retrieve {@link Customer}s by their last name.
 	 *
-	 * If the {@link Customer} cannot be found, a {@link NoSuchElementException}
-	 * will be thrown and a {@link ResponseEntity} with
+	 * If the {@link Customer} cannot be found, an empty result will be will be
+	 * returned in the {@link ResponseEntity}. If one or more {@link Customer}s
+	 * are found, they will be returned in the {@link ResponseEntity}.
+	 *
 	 * {@link HttpStatus.NO_CONTENT} will be returned. If one or more
 	 * {@link Customer}s are found, they will be returned in the
 	 * {@link ResponseEntity}.
@@ -113,15 +113,17 @@ public class CustomerController extends AbstractHttpController {
 		logApiCalls(request);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
 		List<Customer> customers = customerService.findByLastName(lastName);
-		String response = responseBodyMapper.mapCustomersToResponseBody(customers, requestUrl);
+		String response = customerToJsonMapper.mapCustomersToJson(customers, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
 
 	/**
 	 * This method will retrieve {@link Customer}s by their first and last name.
 	 *
-	 * If the {@link Customer} cannot be found, a {@link NoSuchElementException}
-	 * will be thrown and a {@link ResponseEntity} with
+	 * If the {@link Customer} cannot be found, an empty result will be will be
+	 * returned in the {@link ResponseEntity}. If one or more {@link Customer}s
+	 * are found, they will be returned in the {@link ResponseEntity}.
+	 *
 	 * {@link HttpStatus.NO_CONTENT} will be returned. If one or more
 	 * {@link Customer}s are found, they will be returned in the
 	 * {@link ResponseEntity}.
@@ -137,19 +139,22 @@ public class CustomerController extends AbstractHttpController {
 	@ResponseBody
 	@Timed
 	@ExceptionMetered
-	public ResponseEntity<String> getByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName, HttpServletRequest request) {
+	public ResponseEntity<String> getByFirstNameAndLastName(@PathVariable String firstName,
+			@PathVariable String lastName, HttpServletRequest request) {
 		logApiCalls(request);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
 		List<Customer> customers = customerService.findByFirstNameAndLastName(firstName, lastName);
-		String response = responseBodyMapper.mapCustomersToResponseBody(customers, requestUrl);
+		String response = customerToJsonMapper.mapCustomersToJson(customers, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * This method will retrieve all {@link Customer}s.
 	 *
-	 * If no {@link Customer}s can be found, a {@link NoSuchElementException}
-	 * will be thrown and a {@link ResponseEntity} with
+	 * If the {@link Customer} cannot be found, an empty result will be will be
+	 * returned in the {@link ResponseEntity}. If one or more {@link Customer}s
+	 * are found, they will be returned in the {@link ResponseEntity}.
+	 *
 	 * {@link HttpStatus.NO_CONTENT} will be returned. If one or more
 	 * {@link Customer}s are found, they will be returned in the
 	 * {@link ResponseEntity}.
@@ -165,7 +170,7 @@ public class CustomerController extends AbstractHttpController {
 		logApiCalls(request);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
 		List<Customer> customers = customerService.findAll();
-		String response = responseBodyMapper.mapCustomersToResponseBody(customers, requestUrl);
+		String response = customerToJsonMapper.mapCustomersToJson(customers, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
 
@@ -219,10 +224,10 @@ public class CustomerController extends AbstractHttpController {
 		logApiCalls(request);
 		requestValidator.validateJson(requestBody);
 		Customer customer = customerService.findById(id);
-		customer = requestBodyMapper.mapRequestBodyToCustomer(id, requestBody);
+		customer = jsonToCustomerMapper.mapJsonToCustomer(id, requestBody);
 		customerService.save(customer);
 		String requestUrl = linkTo(CustomerController.class).withSelfRel().getHref();
-		String response = responseBodyMapper.mapCustomerToResonseBody(customer, requestUrl);
+		String response = customerToJsonMapper.mapCustomerToJson(customer, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(request.getMethod()), HttpStatus.OK);
 	}
 
@@ -246,10 +251,10 @@ public class CustomerController extends AbstractHttpController {
 	public ResponseEntity<String> post(@RequestBody final String requestBody, HttpServletRequest request) {
 		logApiCalls(request);
 		requestValidator.validateJson(requestBody);
-		Customer customer = requestBodyMapper.mapRequestBodyToCustomer(requestBody);
+		Customer customer = jsonToCustomerMapper.mapJsonToCustomer(requestBody);
 		customer = customerService.save(customer);
 		String requestUrl = request.getRequestURL().toString();
-		String response = responseBodyMapper.mapCustomerToResonseBody(customer, requestUrl);
+		String response = customerToJsonMapper.mapCustomerToJson(customer, requestUrl);
 		return new ResponseEntity<String>(response, createHeaders(requestUrl, customer.getId(), request.getMethod()),
 				HttpStatus.CREATED);
 	}

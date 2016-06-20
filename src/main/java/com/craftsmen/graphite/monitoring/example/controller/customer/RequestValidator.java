@@ -1,4 +1,4 @@
-package com.craftsmen.graphite.monitoring.example.controller.graphite;
+package com.craftsmen.graphite.monitoring.example.controller.customer;
 
 import javax.inject.Singleton;
 
@@ -19,6 +19,7 @@ public class RequestValidator {
 			throw new IllegalArgumentException("Error in JSON format");
 		}
 		if (jsonContext.read("$.id") != null) {
+			System.out.println("Customer shouldn't contain id");
 			throw new IllegalArgumentException("Customer shouldn't contain id");
 		}
 	}

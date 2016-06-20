@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.codahale.metrics.graphite.GraphiteReporter;
-import com.craftsmen.graphite.monitoring.example.AbstractMonitoringConfiguration;
 
 @Configuration
 @Profile({ "prod" })
