@@ -4,6 +4,7 @@ This is a small Spring Boot application containing some REST endpoints to demons
 To use this example, you should have:
 
  - Maven installed.
+ - Java 8 JDK installed.
  - A running Graphite instance. You can use a [graphite docker image](https://github.com/Manfred73/graphite) to start up a Graphite instance.
 
 ##Contents

@@ -127,8 +127,7 @@ public class CustomerClient {
 
 	private void deleteCustomer(String endPoint) {
 		try {
-			ResponseEntity<String> response = restTemplate.exchange(baseUrl + endPoint, HttpMethod.DELETE, getEntity(),
-					String.class);
+			restTemplate.exchange(baseUrl + endPoint, HttpMethod.DELETE, getEntity(), String.class);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

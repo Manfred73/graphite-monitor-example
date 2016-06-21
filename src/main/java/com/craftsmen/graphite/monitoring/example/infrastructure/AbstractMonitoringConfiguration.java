@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricFilter;
@@ -21,39 +20,42 @@ import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 public abstract class AbstractMonitoringConfiguration extends MetricsConfigurerAdapter {
 
-	protected static final long AMOUNT_OF_TIME_BETWEEN_POLLS = 500;
-
 	@Value("${graphite.host}")
 	private String graphiteHost;
 
 	@Value("${graphite.port}")
 	private int graphitePort;
 
+	@Value("${graphite.amount.of.time.between.polls}")
+	private long graphiteAmnountOfTimeBetweenPolls;
+	
 	@Inject
 	private MetricRegistry registry;
 
-	@Bean
-	public JmxReporter jmxReporter() {
-		JmxReporter reporter = JmxReporter.forRegistry(registry).build();
-		reporter.start();
-		return reporter;
+	private String graphitePrefix;
+
+	abstract protected void configureReporters();
+
+	protected void configureReporters(String graphitePrefix) {
+		this.graphitePrefix = graphitePrefix;
+		configureReporters(registry);
 	}
 
-	abstract protected GraphiteReporter startGraphiteReporter();
-
-	protected GraphiteReporter startGraphiteReporterWithLocationPrefix(String graphitePrefix) {
-		GraphiteReporter graphiteReporter = getGraphiteReporterBuilder().prefixedWith(graphitePrefix).build(getGraphite());
-		graphiteReporter.start(AMOUNT_OF_TIME_BETWEEN_POLLS, TimeUnit.MILLISECONDS);
-		return graphiteReporter;
+	@Override
+	public void configureReporters(MetricRegistry metricRegistry) {
+		registerReporter(JmxReporter.forRegistry(metricRegistry).build()).start();
+		GraphiteReporter graphiteReporter = getGraphiteReporterBuilder(metricRegistry).build(getGraphite());
+		registerReporter(graphiteReporter);
+		graphiteReporter.start(graphiteAmnountOfTimeBetweenPolls, TimeUnit.MILLISECONDS);
 	}
 
-	private Builder getGraphiteReporterBuilder() {
-		registry.register("gc", new GarbageCollectorMetricSet());
-		registry.register("memory", new MemoryUsageGaugeSet());
-		registry.register("threads", new ThreadStatesGaugeSet());
-		registry.register("os", new OperatingSystemGaugeSet());
+	private Builder getGraphiteReporterBuilder(MetricRegistry metricRegistry) {
+		metricRegistry.register("gc", new GarbageCollectorMetricSet());
+		metricRegistry.register("memory", new MemoryUsageGaugeSet());
+		metricRegistry.register("threads", new ThreadStatesGaugeSet());
+		metricRegistry.register("os", new OperatingSystemGaugeSet());
 		return GraphiteReporter.forRegistry(registry).convertRatesTo(TimeUnit.SECONDS)
-				.convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL);
+				.convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL).prefixedWith(graphitePrefix);
 	}
 
 	private Graphite getGraphite() {

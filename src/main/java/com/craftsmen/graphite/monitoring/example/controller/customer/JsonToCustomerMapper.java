@@ -29,7 +29,6 @@ public class JsonToCustomerMapper {
 		DocumentContext jsonContext = JsonUtil.getJsonContext(json);
 		JSONArray jsonCustomers = jsonContext.read("$.customers");
 		for (int i = 0; i < jsonCustomers.size(); i++) {
-		    //JSONObject jsonObject = (JSONObject) new JSONParser(JSONParser.MODE_JSON_SIMPLE).parse((String) jsonContext.read("$.customers[" + i + "]"));
 			Number id = jsonContext.read("$.customers[" + i + "].id");
 			String firstName = jsonContext.read("$.customers[" + i + "].firstName");
 			String lastName =  jsonContext.read("$.customers[" + i + "].lastName");
