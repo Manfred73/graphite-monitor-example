@@ -54,7 +54,7 @@ public abstract class AbstractMonitoringConfiguration extends MetricsConfigurerA
 		metricRegistry.register("memory", new MemoryUsageGaugeSet());
 		metricRegistry.register("threads", new ThreadStatesGaugeSet());
 		metricRegistry.register("os", new OperatingSystemGaugeSet());
-		return GraphiteReporter.forRegistry(registry).convertRatesTo(TimeUnit.SECONDS)
+		return GraphiteReporter.forRegistry(metricRegistry).convertRatesTo(TimeUnit.SECONDS)
 				.convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL).prefixedWith(graphitePrefix);
 	}
 
