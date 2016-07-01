@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Metered;
 import com.codahale.metrics.annotation.Timed;
 import com.craftsmen.graphite.monitoring.example.controller.AbstractHttpController;
 import com.craftsmen.graphite.monitoring.example.entities.Customer;
 import com.craftsmen.graphite.monitoring.example.service.CustomerService;
-import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 
 @RestController
-@EnableMetrics
 public class CustomerController extends AbstractHttpController {
 
 	@Inject
