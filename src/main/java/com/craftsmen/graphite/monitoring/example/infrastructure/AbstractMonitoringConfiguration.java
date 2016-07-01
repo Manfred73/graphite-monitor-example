@@ -27,7 +27,7 @@ public abstract class AbstractMonitoringConfiguration extends MetricsConfigurerA
 	private int graphitePort;
 
 	@Value("${graphite.amount.of.time.between.polls}")
-	private long graphiteAmnountOfTimeBetweenPolls;
+	private long graphiteAmountOfTimeBetweenPolls;
 	
 	@Inject
 	private MetricRegistry registry;
@@ -46,7 +46,7 @@ public abstract class AbstractMonitoringConfiguration extends MetricsConfigurerA
 		registerReporter(JmxReporter.forRegistry(metricRegistry).build()).start();
 		GraphiteReporter graphiteReporter = getGraphiteReporterBuilder(metricRegistry).build(getGraphite());
 		registerReporter(graphiteReporter);
-		graphiteReporter.start(graphiteAmnountOfTimeBetweenPolls, TimeUnit.MILLISECONDS);
+		graphiteReporter.start(graphiteAmountOfTimeBetweenPolls, TimeUnit.MILLISECONDS);
 	}
 
 	private Builder getGraphiteReporterBuilder(MetricRegistry metricRegistry) {
