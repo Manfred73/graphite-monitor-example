@@ -1,4 +1,4 @@
-#Customer API
+# Customer API
 The customer API offers the following actions:
 
  - Retrieve (GET) an existing customer by its id.
@@ -10,7 +10,7 @@ The customer API offers the following actions:
  - Update (PUT) a customer by its id.
  - Remove (DELETE) a customer by its id.
 
-##Contents
+## Contents
 
 1. [Data format of the Customer](#data-format-of-the-customer)
 2. [The HTTP interface](#the-http-interface)
@@ -26,7 +26,7 @@ The customer API offers the following actions:
 
 
 
-###Data format of the Customer
+### Data format of the Customer
 The customer API provides the data as a JSON document.
 
     {
@@ -87,10 +87,10 @@ or multiple customers:
        ]
     }
 
-###The HTTP interface
+### The HTTP interface
 The HTTP interface of the customer API is accessible under the following base URL: http://localhost:8090/
 
-####Content-Type
+#### Content-Type
 The interface only delivers data with Content-Type "application/json". The following headers should be set in every request:
 
 | Request Header Name | Header Value                   |
@@ -98,7 +98,7 @@ The interface only delivers data with Content-Type "application/json". The follo
 | Accept              | application/json               |
 | Content-Type        | application/json;charset=UTF-8 |
 
-###Retrieval of a customer
+### Retrieval of a customer
 An existing customer can be retrieved by its id using the HTTP-GET method. It will be returned as a JSON document. The url template for retrieving an existing customer is as follows:
 
     http://localhost:8090/customer/{id}
@@ -111,13 +111,13 @@ The body of the response contains the actual data in JSON format.
 
 Added to the response body will also be the url (_links > self > href) for the retrieved customer.
 
-####**GET request example**
+#### **GET request example**
 
     GET http://localhost:8090/customer/1
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
-####**GET response example**
+#### **GET response example**
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
@@ -134,7 +134,7 @@ Content-Length: 101
       }
     }
 
-###Retrieval of customers by first name
+### Retrieval of customers by first name
 Customers can be retrieved by their first name using the HTTP-GET method. All customers with the matching first name will be returned as a JSON document. The url template for retrieving customers by their first name is as follows:
 
     http://localhost:8090/customers/firstName/{firstName}
@@ -147,13 +147,13 @@ The body of the response contains the actual data in JSON format.
 
 Added to the response body for each customer there will also be the url (_links > self > href).
 
-####**GET request example**
+#### **GET request example**
 
     GET http://localhost:8090/customers/firstName/Addison
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
-####**GET response example**
+#### **GET response example**
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
@@ -193,7 +193,7 @@ Content-Length: 333
        }]
     }
 
-###Retrieval of customers by last name
+### Retrieval of customers by last name
 Customers can be retrieved by their last name using the HTTP-GET method. All customers with the matching last name will be returned as a JSON document. The url template for retrieving customers by their last name is as follows:
 
     http://localhost:8090/customers/lastName/{lastName}
@@ -206,13 +206,13 @@ The body of the response contains the actual data in JSON format.
 
 Added to the response body for each customer there will also be the url (_links > self > href).
 
-####**GET request example**
+#### **GET request example**
 
     GET http://localhost:8090/customers/lastName/Alvin
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
-####**GET response example**
+#### **GET response example**
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
@@ -252,7 +252,7 @@ Content-Length: 331
        }]
     }
 
-###Retrieval of customers by first name and last name
+### Retrieval of customers by first name and last name
 Customers can be retrieved by their first name and last name using the HTTP-GET method. All customers with the matching first name and last name will be returned as a JSON document. The url template for retrieving customers by their first name and last name is as follows:
 
     http://localhost:8090/customers/firstName/{firstName}/lastName/{lastName}
@@ -265,13 +265,13 @@ The body of the response contains the actual data in JSON format.
 
 Added to the response body for each customer there will also be the url (_links > self > href).
 
-####**GET request example**
+#### **GET request example**
 
     GET http://localhost:8090/customers/firstName/Carlos/lastName/Lucius
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
-####**GET response example**
+#### **GET response example**
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
@@ -291,7 +291,7 @@ Content-Length: 120
        }]
     }
 
-###Retrieval of all customers
+### Retrieval of all customers
 All existings customers can be retrieved by using the HTTP-GET method. All customers will be returned as a JSON document. The url template for retrieving all customer is as follows:
 
     http://localhost:8090/customers
@@ -304,13 +304,13 @@ The body of the response contains the actual data in JSON format.
 
 Added to the response body for each customer there will also be the url (_links > self > href).
 
-####**GET request example**
+#### **GET request example**
 
     GET http://localhost:8090/customers
     Accept: application/json
     Content-Type: application/json;charset=UTF-8 
 
-####**GET response example**
+#### **GET response example**
 
 200 OK
 Content-Type: application/json;charset=UTF-8 
@@ -353,7 +353,7 @@ Content-Length: 39451
        }]
     }
     
-###Creating a new customer
+### Creating a new customer
 
 A new customer can be stored via an HTTP-POST request. The url template for creating a newcustomer is as follows: 
 
@@ -371,7 +371,7 @@ The body of the response contains the actual data in JSON format.
 
 In the HTTP header "Location" you can find the url for the newly created customer. Added to the response body will also be the url (_links > self > href) for the newly created customer.
 
-####**POST request example**
+#### **POST request example**
 
     POST http://localhost:8090/customer
     Accept: application/json
@@ -382,7 +382,7 @@ In the HTTP header "Location" you can find the url for the newly created custome
        "lastName": "Doe"
     }
 
-####**POST response example**
+#### **POST response example**
 
     201 CREATED
     Location: http://localhost:8090/customer/301
@@ -400,7 +400,7 @@ In the HTTP header "Location" you can find the url for the newly created custome
       }
     }
 
-###Updating an existing customer
+### Updating an existing customer
 An existing customer can be updated by its id using the HTTP-PUT method. The url template for updating an existing customer is as follows:
 
     http://localhost:8090/customer/{id}
@@ -416,7 +416,7 @@ If the customer could not be found with the id provided, a response with HTTP st
 
 The body of the response contains the actual data in JSON format.
 
-####**PUT request example**
+#### **PUT request example**
 
 PUT http://localhost:8090/customer/301
 Accept: application/json
@@ -427,7 +427,7 @@ Content-Type: application/json;charset=UTF-8
        "lastName": "Doe"
     }
 
-####**PUT response example**
+#### **PUT response example**
 
     200 OK
     Content-Type: application/json;charset=UTF-8
@@ -444,7 +444,7 @@ Content-Type: application/json;charset=UTF-8
       }
     }
 
-###Deleting an existing customer
+### Deleting an existing customer
 An existing customer can be deleted by its id using the HTTP-DELETE method. The url template for deleting an existing customer is as follows:
 
     http://localhost:8090/customer/{id}
@@ -455,18 +455,18 @@ If the customer could not be found with the id provided, a response with HTTP st
 
 The body of the response will be empty.
 
-####**DELETE request example**
+#### **DELETE request example**
 
 DELETE http://localhost:8090/301
 Accept: application/json
 Content-Type: application/json;charset=UTF-8 
 
-####**DELETE response example**
+#### **DELETE response example**
 
 204 NO CONTENT
 Content-Type: application/json;charset=UTF-8 
 
-##Validations
+## Validations
 
 The following validations are done:
 
